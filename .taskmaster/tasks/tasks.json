@@ -1,0 +1,1204 @@
+{
+  "master": {
+    "tasks": [
+      {
+        "id": 1,
+        "title": "Setup Project Architecture and Infrastructure",
+        "description": "Establish the foundational architecture for the SMS drip campaign platform, including backend, frontend, and database design.",
+        "details": "Create a responsive web application using a modern tech stack. Backend should be built with Node.js/Express or similar framework with RESTful API endpoints. Frontend should use React/Vue.js for the dashboard. Set up a relational database (PostgreSQL recommended) for storing user accounts, device information, recipient lists, and campaign data. Implement containerization with Docker for easier deployment and scaling. Design the system architecture to support the pluggable device connection backends (USB, WiFi, cloud API) as specified in the PRD.",
+        "testStrategy": "Implement unit tests for core components. Set up integration tests for API endpoints. Create a staging environment that mirrors production. Perform load testing to ensure the system can handle the required scale (10k+ recipients, 10-50+ active phones).",
+        "priority": "high",
+        "dependencies": [],
+        "status": "in-progress",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Backend Framework Selection and Setup",
+            "description": "Research, select, and set up the backend framework for the SMS drip campaign platform",
+            "dependencies": [],
+            "details": "Evaluate Node.js/Express and alternative frameworks based on performance, scalability, and community support. Set up the selected framework with proper folder structure following best practices. Implement core server functionality including middleware configuration, error handling, logging, and security features. Configure environment variables and deployment settings. Set up development and production environments.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Frontend Framework Implementation",
+            "description": "Set up the frontend framework and implement the basic UI architecture",
+            "dependencies": [],
+            "details": "Select between React and Vue.js based on project requirements. Set up the chosen framework with proper state management (Redux/Vuex). Implement responsive design system with component library. Create the application shell with navigation, authentication views, and dashboard layout. Set up routing structure for all planned features. Implement API service layer for backend communication. Configure build process and optimization.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Database Schema Design",
+            "description": "Design and implement the PostgreSQL database schema for the platform",
+            "dependencies": [],
+            "details": "Create comprehensive entity-relationship diagrams. Design normalized tables for users, devices, campaigns, recipients, messages, and analytics. Implement proper indexing strategy for performance optimization. Set up migrations system for schema versioning. Create seed data for development. Design and implement database backup and recovery procedures. Document schema with detailed field descriptions and relationships.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "API Endpoint Architecture",
+            "description": "Design and document the RESTful API architecture for all platform features",
+            "dependencies": [],
+            "details": "Define comprehensive API endpoints for all platform features including authentication, campaign management, device management, and analytics. Create detailed API documentation with Swagger/OpenAPI. Implement versioning strategy for API endpoints. Design consistent error handling and response formats. Create authentication and authorization middleware. Implement rate limiting and security measures. Design webhook architecture for external integrations.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Docker Containerization",
+            "description": "Implement Docker containerization for all application components",
+            "dependencies": [],
+            "details": "Create Dockerfiles for backend, frontend, and database services. Develop docker-compose configuration for local development. Implement multi-stage builds for production optimization. Configure volume mapping for persistent data. Set up container networking and service discovery. Implement health checks and container restart policies. Document container deployment and management procedures.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 6,
+            "title": "CI/CD Pipeline Configuration",
+            "description": "Set up continuous integration and deployment pipeline for the project",
+            "dependencies": [],
+            "details": "Select and configure CI/CD platform (GitHub Actions, Jenkins, or similar). Implement automated testing in the pipeline for both backend and frontend. Set up linting and code quality checks. Configure automated builds for Docker images. Implement staging and production deployment workflows. Set up database migration automation. Configure monitoring and alerting for deployment issues. Document deployment procedures and rollback strategies.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 7,
+            "title": "Development Environment Setup with Testing Frameworks",
+            "description": "Configure comprehensive development environment with testing infrastructure",
+            "dependencies": [],
+            "details": "Set up local development environment with hot-reloading for both backend and frontend. Configure backend testing framework (Jest, Mocha) with database mocking. Implement frontend testing tools (Jest, React Testing Library, Cypress). Create end-to-end testing infrastructure. Set up code coverage reporting. Implement mock services for external dependencies. Create developer documentation for environment setup and testing procedures. Configure pre-commit hooks for code quality.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "title": "User Authentication and Dashboard Setup",
+        "description": "Implement user authentication system and create the responsive dashboard UI framework.",
+        "details": "Implement secure user authentication using JWT or similar token-based auth. Create user registration, login, and password reset flows. Design and implement the responsive dashboard layout that works on both desktop and mobile devices. Include navigation for all major sections: Device Management, Recipient Lists, Message Templates, Campaign Management, and Analytics. Implement activity logging to track user actions as specified in the PRD's security requirements.",
+        "testStrategy": "Test authentication flows including registration, login, logout, and password reset. Verify JWT token validation and expiration. Test dashboard responsiveness across different screen sizes and devices. Verify proper logging of user activities.",
+        "priority": "high",
+        "dependencies": [
+          1
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "JWT Authentication Implementation",
+            "description": "Implement secure token-based authentication using JWT for user sessions",
+            "dependencies": [],
+            "details": "Set up JWT token generation, validation, and refresh mechanisms. Implement secure storage of user credentials with proper hashing. Create authentication middleware for protected routes. Configure token expiration and renewal process. Implement logout functionality that invalidates tokens.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "User Registration and Account Management",
+            "description": "Develop user registration flow and account management functionality",
+            "dependencies": [
+              "2.1"
+            ],
+            "details": "Create user registration form with validation. Implement email verification process. Design and implement user profile management. Add account settings page for updating personal information. Implement role-based access control for different user types (admin, standard user).",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Password Reset and Security Features",
+            "description": "Implement password reset flow and additional security features",
+            "dependencies": [
+              "2.1",
+              "2.2"
+            ],
+            "details": "Create forgot password functionality with secure reset links. Implement password strength requirements. Add two-factor authentication option. Develop account lockout after failed login attempts. Create email notifications for security-related events (password changes, unusual login locations).",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Responsive Dashboard Layout and Navigation",
+            "description": "Design and implement the responsive dashboard UI framework with navigation",
+            "dependencies": [
+              "2.1"
+            ],
+            "details": "Create responsive layout using CSS grid/flexbox. Implement collapsible sidebar navigation for mobile devices. Design and implement navigation components for all major sections (Device Management, Recipient Lists, Message Templates, Campaign Management, Analytics). Create header with user profile dropdown and notifications. Implement breadcrumb navigation for deep-linked pages.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "User Activity Logging System",
+            "description": "Implement comprehensive logging system to track user actions",
+            "dependencies": [
+              "2.1",
+              "2.4"
+            ],
+            "details": "Create database schema for activity logs. Implement logging middleware to capture user actions. Design admin interface for viewing and filtering activity logs. Add export functionality for logs. Implement retention policies for log data. Ensure logging of security-critical actions like login attempts, permission changes, and sensitive data access.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "title": "Device Connection via USB Implementation",
+        "description": "Develop the USB connection method for connecting phones to the dashboard.",
+        "details": "Create a service that detects and communicates with phones connected via USB. Implement using WebUSB API for browser-based connections or a separate desktop application that bridges to the web dashboard. Develop device detection, connection handshake, and status monitoring (battery, SIM status, signal strength). Create a protocol for sending commands to and receiving status updates from connected devices. Implement error handling for connection issues.",
+        "testStrategy": "Test device detection with various phone models. Verify connection establishment and maintenance. Test command sending and status receiving. Simulate connection errors and verify proper error handling and recovery.",
+        "priority": "high",
+        "dependencies": [
+          1,
+          2
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "WebUSB API Integration",
+            "description": "Implement the WebUSB API for browser-based connections to USB devices",
+            "dependencies": [],
+            "details": "Research WebUSB API capabilities and browser compatibility. Implement device access request handling. Create permission management for USB device access. Develop connection establishment and maintenance functions. Test across different browsers (Chrome, Edge, etc.) and handle browser-specific limitations. Document API usage patterns for future reference.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Device Detection Service",
+            "description": "Create a service that detects when phones are connected via USB and manages device listings",
+            "dependencies": [
+              "3.1"
+            ],
+            "details": "Implement continuous device scanning to detect when phones are connected or disconnected. Create device identification logic to recognize different phone models and operating systems. Develop a device registry to maintain list of available devices. Implement device metadata collection (manufacturer, model, serial number). Create events for device connection/disconnection that other components can subscribe to.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Connection Handshake Protocol",
+            "description": "Develop the protocol for establishing and authenticating connections with devices",
+            "dependencies": [
+              "3.1",
+              "3.2"
+            ],
+            "details": "Design a secure handshake protocol for initial device connection. Implement device authentication to ensure only authorized devices can connect. Create connection state management (connecting, connected, disconnected, error). Develop reconnection logic for handling temporary disconnections. Implement protocol versioning to support future updates. Test handshake reliability across different device types.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Device Status Monitoring",
+            "description": "Implement monitoring of connected device status including battery, SIM status, and signal strength",
+            "dependencies": [
+              "3.3"
+            ],
+            "details": "Create polling mechanism to regularly check device status. Implement battery level monitoring with low battery alerts. Develop SIM card status detection (present, absent, locked). Implement signal strength monitoring with quality indicators. Create storage for historical status data. Develop status visualization components for the dashboard UI. Implement alerts for critical status changes.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Command Transmission Protocol",
+            "description": "Develop the protocol for sending commands to devices and receiving status updates",
+            "dependencies": [
+              "3.3"
+            ],
+            "details": "Design command structure and serialization format (JSON, Protocol Buffers, etc.). Implement command queuing system for reliable delivery. Create acknowledgment mechanism to confirm command receipt and execution. Develop status update subscription model. Implement command prioritization for critical operations. Create command timeout and retry logic. Document protocol specifications for potential third-party integrations.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 6,
+            "title": "Error Handling and Recovery Mechanisms",
+            "description": "Implement comprehensive error handling for USB connections and recovery procedures",
+            "dependencies": [
+              "3.1",
+              "3.2",
+              "3.3",
+              "3.4",
+              "3.5"
+            ],
+            "details": "Identify and categorize potential error scenarios (connection loss, permission denied, device busy, etc.). Implement specific error handlers for each scenario. Create user-friendly error messages and troubleshooting guidance. Develop automatic recovery procedures where possible. Implement connection health monitoring to detect degraded connections. Create logging system for connection issues to aid debugging. Develop fallback mechanisms when primary connection methods fail.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "title": "Device Connection via WiFi/Mobile App",
+        "description": "Implement WiFi and mobile app connection methods for remote device management.",
+        "details": "Develop a mobile application (Android/iOS) that acts as a bridge between the phone's SMS capabilities and the dashboard. Implement secure WebSocket connections for real-time communication. Create a device pairing system using QR codes or unique URLs for easy onboarding. Implement background service on mobile devices to maintain connection even when app is not in foreground. Develop cloud relay service to allow devices to connect from different networks.",
+        "testStrategy": "Test device pairing process on various devices and networks. Verify real-time communication between dashboard and devices. Test connection stability during network changes. Verify background operation on mobile devices. Test reconnection logic when devices go offline and come back online.",
+        "priority": "high",
+        "dependencies": [
+          1,
+          2
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Android Mobile App Development",
+            "description": "Develop the Android version of the mobile application that bridges SMS capabilities with the dashboard",
+            "dependencies": [],
+            "details": "Create Android application with Material Design UI. Implement SMS permission handling and message sending/receiving capabilities. Develop local database for message storage and queuing. Implement network connectivity monitoring. Create settings screens for configuration. Ensure compatibility with Android 8.0 and above.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "iOS Mobile App Development",
+            "description": "Develop the iOS version of the mobile application that bridges SMS capabilities with the dashboard",
+            "dependencies": [],
+            "details": "Create iOS application with SwiftUI. Implement SMS handling through available iOS APIs. Develop local database for message storage and queuing. Implement network connectivity monitoring. Create settings screens for configuration. Ensure compatibility with iOS 13 and above. Submit to App Store with appropriate privacy descriptions.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "WebSocket Communication Layer",
+            "description": "Implement secure WebSocket connections for real-time communication between mobile apps and dashboard",
+            "dependencies": [],
+            "details": "Design WebSocket protocol for device-dashboard communication. Implement secure WebSocket server with TLS. Create message format for commands, status updates, and heartbeats. Implement connection state management and reconnection logic. Add message queuing for offline periods. Develop authentication mechanism for WebSocket connections.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Device Pairing and Authentication System",
+            "description": "Create a secure device pairing system using QR codes or unique URLs for easy onboarding",
+            "dependencies": [
+              "4.1",
+              "4.2",
+              "4.3"
+            ],
+            "details": "Design secure pairing protocol with unique device identifiers. Implement QR code generation on dashboard and scanning in mobile apps. Create alternative URL-based pairing method. Develop device authentication system with token rotation. Implement device verification process. Create UI flows for adding new devices in dashboard and mobile apps.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Background Service Implementation",
+            "description": "Implement battery-efficient background services on mobile devices to maintain connection when app is not in foreground",
+            "dependencies": [
+              "4.1",
+              "4.2",
+              "4.3"
+            ],
+            "details": "Develop Android foreground service with notification. Implement iOS background modes for connectivity. Create battery optimization strategies with adaptive polling. Implement wake locks and scheduled tasks for periodic connectivity. Add push notification fallback for critical messages. Develop service auto-restart mechanisms.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 6,
+            "title": "Cloud Relay Service Development",
+            "description": "Develop cloud relay service to allow devices to connect from different networks and maintain connectivity",
+            "dependencies": [
+              "4.3"
+            ],
+            "details": "Design cloud relay architecture with load balancing. Implement server-side relay service with message queuing. Create device registration and discovery system. Develop message routing logic between devices and dashboard. Implement end-to-end encryption for relay communications. Add monitoring and logging for relay service performance.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 7,
+            "title": "Reconnection and Resilience Logic",
+            "description": "Implement robust reconnection logic and resilience mechanisms for handling network changes and interruptions",
+            "dependencies": [
+              "4.3",
+              "4.5",
+              "4.6"
+            ],
+            "details": "Develop exponential backoff algorithm for reconnection attempts. Implement network type detection and switching (WiFi/cellular). Create connection quality monitoring system. Develop message persistence during disconnections. Implement automatic recovery from connection failures. Create notification system for persistent connection issues. Add diagnostics and troubleshooting tools.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "title": "Recipient List Import and Management",
+        "description": "Create functionality for importing and managing recipient lists from spreadsheets.",
+        "details": "Implement file upload for CSV/XLS/XLSX formats. Create parser to extract phone numbers and optional fields (name, tags, etc.). Implement validation for phone number formatting, duplicates, and DNC list checking. Create UI for viewing, editing, and managing imported lists. Implement manual entry form for adding individual recipients. Create bulk operations (tag, delete, export) for list management.",
+        "testStrategy": "Test file uploads with various file formats and sizes. Verify correct parsing of different spreadsheet structures. Test validation logic for phone numbers and duplicates. Verify DNC list integration. Test manual entry and bulk operations.",
+        "priority": "high",
+        "dependencies": [
+          1,
+          2
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "File Upload and Parsing System",
+            "description": "Implement file upload functionality and parsing system for CSV, XLS, and XLSX formats",
+            "dependencies": [],
+            "details": "Create a file upload component that accepts CSV, XLS, and XLSX files. Implement size limits and validation for uploaded files. Develop parsers for each file format that can extract phone numbers and optional fields (name, email, tags, etc.). Create a preview system to show users how their data will be imported before finalizing. Handle different column structures and allow users to map columns to specific data fields.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Phone Number Validation and Formatting",
+            "description": "Implement comprehensive phone number validation and formatting system",
+            "dependencies": [
+              "5.1"
+            ],
+            "details": "Create validation rules for different international phone number formats. Implement automatic formatting to standardize phone numbers (E.164 format). Develop error handling for invalid phone numbers with clear user feedback. Create options for handling invalid numbers during import (skip, flag, attempt to fix). Implement batch validation to efficiently process large lists.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Duplicate Detection and DNC Integration",
+            "description": "Implement duplicate detection within lists and integration with Do Not Call (DNC) lists",
+            "dependencies": [
+              "5.1",
+              "5.2"
+            ],
+            "details": "Create algorithms to detect duplicate phone numbers within imported lists and across existing lists. Implement DNC list checking against internal and possibly external DNC databases. Develop options for handling duplicates and DNC matches (skip, flag, merge data). Create a quarantine system for numbers that shouldn't be messaged. Implement reporting on duplicate and DNC detection results.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "List Management UI Development",
+            "description": "Create user interface for viewing, editing, and managing recipient lists",
+            "dependencies": [
+              "5.1",
+              "5.2",
+              "5.3"
+            ],
+            "details": "Develop a list view with pagination, sorting, and filtering capabilities. Create inline editing functionality for recipient data. Implement search functionality across all recipient fields. Design and implement a manual entry form for adding individual recipients. Create list metadata management (name, description, tags). Implement list segmentation based on recipient attributes.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Bulk Operations Implementation",
+            "description": "Implement bulk operations for efficient list management",
+            "dependencies": [
+              "5.4"
+            ],
+            "details": "Create functionality for bulk tagging of recipients. Implement bulk deletion with confirmation safeguards. Develop export functionality to CSV/Excel formats. Create bulk move/copy operations between lists. Implement batch processing for large lists to ensure system performance. Add progress indicators for long-running bulk operations.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "title": "Message Template Creation with Spintext",
+        "description": "Develop the message template system with support for spintext and personalization variables.",
+        "details": "Create a message editor with support for spintext syntax (e.g., {option1|option2|option3}). Implement personalization variable insertion (e.g., [FIRST_NAME]). Develop a preview system that shows how messages will appear with different spintext combinations and personalization values. Create a template library for saving and reusing message templates. Implement character counting that accounts for spintext variations to help users stay within SMS length limits.",
+        "testStrategy": "Test spintext parsing and rendering with various complexity levels. Verify personalization variable replacement. Test preview functionality with different combinations. Verify character counting accuracy with spintext variations. Test template saving and retrieval.",
+        "priority": "high",
+        "dependencies": [
+          1,
+          2
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Template Editor UI with Spintext Support",
+            "description": "Design and implement the message template editor interface with support for spintext syntax and formatting controls.",
+            "dependencies": [],
+            "details": "Create a rich text editor component that allows users to input and format message text. Implement syntax highlighting for spintext patterns like {option1|option2|option3}. Add toolbar buttons for common formatting options and spintext insertion. Include a help section explaining spintext syntax. Ensure the editor is responsive and works well on both desktop and mobile devices.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Spintext Parsing and Rendering Engine",
+            "description": "Develop the core engine that parses spintext syntax and generates message variations.",
+            "dependencies": [
+              "6.1"
+            ],
+            "details": "Create a parser that identifies and extracts spintext patterns from message templates. Implement an algorithm to generate all possible message variations based on spintext combinations. Build a rendering system that can display a specific variation when requested. Handle nested spintext patterns (e.g., {Hello|Hi} {there|friend}). Implement error handling for malformed spintext syntax.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Personalization Variable System",
+            "description": "Implement the system for inserting and processing personalization variables in message templates.",
+            "dependencies": [
+              "6.1"
+            ],
+            "details": "Create a mechanism for defining available personalization variables (e.g., [FIRST_NAME], [LAST_NAME], [CUSTOM_FIELD]). Implement UI controls for inserting these variables into the template editor. Develop the backend logic to replace variables with actual recipient data when messages are sent. Create validation to ensure all used variables have corresponding data. Implement fallback values for missing personalization data.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Template Preview Generator with Variation Display",
+            "description": "Build a preview system that shows how messages will appear with different spintext combinations and personalization values.",
+            "dependencies": [
+              "6.2",
+              "6.3"
+            ],
+            "details": "Create a preview panel that shows rendered message examples. Implement controls to cycle through different spintext variations. Add sample recipient data input for testing personalization variables. Create a 'random variation' button to show different possible combinations. Implement a 'show all variations' option for templates with limited combinations.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Character Counter with Spintext Variation Awareness",
+            "description": "Develop a character counting system that accounts for all possible spintext variations to ensure messages stay within SMS length limits.",
+            "dependencies": [
+              "6.2"
+            ],
+            "details": "Implement a character counter that displays current message length. Calculate and show minimum and maximum possible lengths based on spintext variations. Add visual indicators when any variation exceeds SMS length limits (160 characters for standard SMS). Create warnings for messages that would require multiple SMS segments. Implement real-time updating as the user edits the template.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 7,
+        "title": "Drip Campaign Scheduling Engine",
+        "description": "Implement the scheduling engine for drip campaigns with flexible timing options.",
+        "details": "Create a scheduling system that supports various timing patterns: fixed intervals, specific times, batched sending. Implement time zone awareness for scheduling. Develop throttling controls to limit sending rates. Create a queue management system that persists scheduled messages even if devices go offline. Implement pause/resume functionality for campaigns. Design the scheduler to distribute messages across available devices according to load balancing rules.",
+        "testStrategy": "Test various scheduling patterns and verify correct execution timing. Verify time zone handling for global campaigns. Test throttling limits under load. Verify queue persistence during device disconnections. Test pause/resume functionality mid-campaign.",
+        "priority": "high",
+        "dependencies": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement Flexible Scheduling Patterns",
+            "description": "Develop the core scheduling system that supports various timing patterns including fixed intervals, specific times, and batched sending.",
+            "dependencies": [],
+            "details": "Create a scheduling module that can interpret and execute different timing patterns. Implement fixed interval scheduling (e.g., every 2 hours, daily, weekly). Build specific time scheduling (e.g., 9am every Tuesday). Develop batched sending capability to group messages. Design a clean API for defining these patterns programmatically and through the UI. Include validation to prevent invalid scheduling configurations.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Develop Time Zone Handling System",
+            "description": "Create a system that manages scheduling across different time zones to ensure messages are delivered at appropriate local times.",
+            "dependencies": [
+              "7.1"
+            ],
+            "details": "Implement time zone conversion utilities. Store recipient time zone information or allow for campaign-level defaults. Ensure all scheduled times are properly adjusted based on recipient time zones. Create a testing framework to verify correct time zone handling. Implement daylight saving time adjustments. Design a user-friendly interface for configuring time zone preferences.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Build Throttling and Rate Limiting Controls",
+            "description": "Implement controls to limit sending rates to prevent carrier blocking while maintaining campaign efficiency.",
+            "dependencies": [
+              "7.1"
+            ],
+            "details": "Create configurable rate limits at device, campaign, and system levels. Implement adaptive throttling based on carrier feedback (e.g., error responses). Develop monitoring tools to track sending rates in real-time. Build override capabilities for emergency situations. Design the throttling system to gracefully delay messages rather than failing them when limits are reached. Implement analytics to help optimize rate limits.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Create Persistent Queue Management System",
+            "description": "Develop a queue management system that persists scheduled messages even when devices go offline.",
+            "dependencies": [
+              "7.1",
+              "7.3"
+            ],
+            "details": "Implement a database-backed queue for storing pending messages. Create a recovery system to handle device disconnections and reconnections. Design queue prioritization logic to ensure critical messages are sent first. Implement queue monitoring and management tools. Build cleanup processes for completed or expired messages. Ensure the queue system can scale to handle large campaign volumes.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Implement Campaign Pause/Resume Functionality",
+            "description": "Build functionality to pause and resume campaigns at any point without losing state or scheduled messages.",
+            "dependencies": [
+              "7.1",
+              "7.4"
+            ],
+            "details": "Create campaign state management system (running, paused, completed, etc.). Implement pause functionality that immediately stops sending but preserves all queued messages. Develop resume capability that continues from the exact point of pause. Build UI controls for pause/resume operations. Implement scheduled pauses and resumes for automated campaign management. Create logging for all state changes.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 6,
+            "title": "Design Load Balancing Distribution Algorithm",
+            "description": "Create an algorithm to distribute messages across available devices according to load balancing rules.",
+            "dependencies": [
+              "7.1",
+              "7.3",
+              "7.4"
+            ],
+            "details": "Implement multiple distribution strategies (round-robin, capacity-based, priority-based). Create a device health monitoring system to avoid sending to problematic devices. Develop dynamic redistribution logic when devices go offline. Build configuration options for distribution rules per campaign. Implement sender rotation to prevent carrier blocking. Create analytics to measure distribution effectiveness and balance.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 8,
+        "title": "Device Load Balancing and Distribution Logic",
+        "description": "Implement logic for distributing messages across connected devices based on rules and load balancing.",
+        "details": "Create algorithms for different distribution strategies: round-robin, even distribution, priority-based, etc. Implement device health monitoring to avoid sending to problematic devices. Develop dynamic redistribution when devices go offline or have errors. Create UI for configuring distribution rules per campaign. Implement sender rotation to avoid carrier blocking due to high volume from a single number.",
+        "testStrategy": "Test distribution algorithms with various device configurations. Verify even distribution under normal conditions. Test redistribution when devices go offline or report errors. Verify sender rotation effectiveness. Measure system performance under high load with many devices.",
+        "priority": "medium",
+        "dependencies": [
+          3,
+          4,
+          7
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement Round-Robin and Even Distribution Algorithms",
+            "description": "Develop the core distribution algorithms for round-robin and even distribution strategies to allocate messages across connected devices.",
+            "dependencies": [],
+            "details": "Create modular algorithm implementations that can be selected at runtime. For round-robin, implement sequential message assignment across available devices. For even distribution, develop logic that maintains balanced message counts across all devices. Include configuration options for each algorithm and unit tests to verify distribution patterns.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Develop Priority-Based Distribution and Device Health Monitoring",
+            "description": "Implement priority-based distribution algorithm and create a health monitoring service to track device status and performance.",
+            "dependencies": [
+              "8.1"
+            ],
+            "details": "Build a priority-based algorithm that routes messages based on device capabilities and campaign priorities. Develop a health monitoring service that tracks metrics like message success rate, response time, battery level, and error frequency. Implement a scoring system to rate device health and reliability. Create alerting mechanisms for when devices fall below acceptable health thresholds.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Create Dynamic Redistribution System",
+            "description": "Implement a system that dynamically redistributes messages when devices go offline or experience errors.",
+            "dependencies": [
+              "8.1",
+              "8.2"
+            ],
+            "details": "Develop event listeners for device status changes. Create redistribution logic that reroutes pending messages from offline/problematic devices to healthy ones. Implement queuing mechanisms to handle temporary device unavailability. Ensure no message loss during redistribution events. Add logging and metrics to track redistribution frequency and impact on delivery times.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Build Distribution Rule Configuration UI",
+            "description": "Design and implement a user interface for configuring distribution rules per campaign.",
+            "dependencies": [
+              "8.1",
+              "8.2"
+            ],
+            "details": "Create UI components for selecting distribution algorithms per campaign. Implement forms for configuring algorithm-specific parameters. Develop device selection/filtering interface to specify which devices participate in which campaigns. Add rule validation to prevent configuration errors. Include preview functionality to show how messages would be distributed based on current rules and device status.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Implement Sender Rotation System",
+            "description": "Develop a sender rotation system to avoid carrier blocking due to high volume from a single number.",
+            "dependencies": [
+              "8.1",
+              "8.3"
+            ],
+            "details": "Create algorithms to rotate sending devices based on volume thresholds and time intervals. Implement carrier-specific rules to avoid detection patterns. Develop monitoring for carrier blocking signals and automatic adjustment of rotation strategies. Build analytics to track sender performance and blocking incidents. Include configuration options for rotation aggressiveness based on campaign urgency.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 9,
+        "title": "Campaign Management Dashboard",
+        "description": "Develop the central campaign management interface for monitoring and controlling campaigns.",
+        "details": "Create visual dashboard showing campaign status (queued, sending, paused, completed). Implement real-time updates of campaign progress. Develop controls for starting, pausing, stopping, and rescheduling campaigns. Create alerts for errors, carrier blocks, offline devices, etc. Implement campaign filtering and search functionality. Design UI for reassigning leads/messages between devices when needed.",
+        "testStrategy": "Test dashboard updates with simulated campaign data. Verify control operations (start, pause, stop) work correctly. Test alert generation under various error conditions. Verify lead reassignment functionality between devices. Test performance with multiple simultaneous campaigns.",
+        "priority": "medium",
+        "dependencies": [
+          7,
+          8
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Campaign Status Visualization and Real-time Updates",
+            "description": "Develop the visual components for displaying campaign statuses and implement real-time update functionality",
+            "dependencies": [],
+            "details": "Create visual indicators for campaign statuses (queued, sending, paused, completed). Implement progress bars or counters showing message delivery statistics. Develop WebSocket or polling mechanism for real-time updates. Design responsive layout that scales with multiple campaigns. Include timestamp information for last update and campaign events.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Campaign Control Interface",
+            "description": "Build the interface for starting, pausing, stopping, and rescheduling campaigns",
+            "dependencies": [
+              "9.1"
+            ],
+            "details": "Implement action buttons for campaign operations (start, pause, stop, reschedule). Create confirmation dialogs for critical actions. Design scheduling interface for setting or modifying campaign timing. Develop status transition logic to handle state changes. Implement visual feedback for action success/failure.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Alert System for Errors and Issues",
+            "description": "Develop the notification system for campaign errors, carrier blocks, offline devices, and other issues",
+            "dependencies": [
+              "9.1"
+            ],
+            "details": "Create alert components with appropriate severity levels (warning, error, critical). Implement notification center to collect and display all alerts. Design alert dismissal and acknowledgment functionality. Develop filtering options for alert types. Create email/SMS notification options for critical alerts.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Campaign Filtering and Search Functionality",
+            "description": "Implement search and filtering capabilities for managing multiple campaigns",
+            "dependencies": [
+              "9.1"
+            ],
+            "details": "Create search bar with autocomplete for campaign names. Implement filters for campaign status, date ranges, and tags. Design saved filter functionality for frequent searches. Develop sorting options for different campaign attributes. Create pagination or infinite scroll for large campaign lists.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Message/Lead Reassignment Interface",
+            "description": "Design and implement the interface for reassigning leads or messages between devices",
+            "dependencies": [
+              "9.1",
+              "9.2"
+            ],
+            "details": "Create drag-and-drop interface for moving leads between devices. Implement bulk selection and reassignment functionality. Design device status indicators showing capacity and current load. Develop confirmation workflow for reassignment actions. Create history log of reassignment actions for auditing.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 10,
+        "title": "SMS Sending and Delivery Tracking",
+        "description": "Implement the core SMS sending functionality and delivery status tracking.",
+        "details": "Create a messaging service that communicates with connected devices to send SMS messages. Implement delivery receipt handling to track message status. Develop retry logic for failed messages. Create a message queue that persists during connection interruptions. Implement spintext resolution at send time. Handle personalization variable replacement when sending. Create a logging system for all message events (queued, sent, delivered, failed).",
+        "testStrategy": "Test message sending with actual devices. Verify delivery receipt processing. Test retry logic with simulated failures. Verify queue persistence during disconnections. Test spintext and personalization variable replacement. Verify logging of all message events.",
+        "priority": "high",
+        "dependencies": [
+          3,
+          4,
+          6,
+          7
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Device Communication Service Implementation",
+            "description": "Create a messaging service that establishes and maintains connections with devices for SMS transmission",
+            "dependencies": [],
+            "details": "Develop a robust service that handles device connections via WebSockets. Implement connection management, heartbeat monitoring, and reconnection strategies. Create message transmission protocols that work across different device types. Include authentication and encryption for secure device communication. Develop connection pooling to handle multiple devices efficiently.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Delivery Receipt Handling and Status Tracking",
+            "description": "Implement a system to process delivery receipts and track message status throughout its lifecycle",
+            "dependencies": [
+              "10.1"
+            ],
+            "details": "Create handlers for different types of delivery receipts (delivered, failed, pending). Develop a status tracking system that updates message states in real-time. Implement a database schema for storing message status history. Create APIs for querying message status. Design notification mechanisms for status changes. Implement timeout detection for messages without delivery confirmation.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Retry Logic for Failed Messages",
+            "description": "Develop intelligent retry mechanisms for messages that fail to send or deliver",
+            "dependencies": [
+              "10.1",
+              "10.2"
+            ],
+            "details": "Implement configurable retry policies with exponential backoff. Create failure categorization to determine if and when to retry (temporary vs. permanent failures). Develop circuit breakers to prevent overwhelming failing devices. Implement maximum retry limits and deadletter queues for permanently failed messages. Create admin interfaces for manual retry of failed messages.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Persistent Message Queue Implementation",
+            "description": "Create a durable message queue that maintains message integrity during connection interruptions",
+            "dependencies": [
+              "10.1"
+            ],
+            "details": "Implement a persistent queue using a reliable storage mechanism (database or file-based). Develop transaction support to prevent message loss during system failures. Create queue management APIs for monitoring and administration. Implement priority queuing for urgent messages. Design queue partitioning by device to optimize throughput. Develop queue metrics and monitoring.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Spintext Resolution Engine",
+            "description": "Implement a system to resolve spintext variations at message send time",
+            "dependencies": [],
+            "details": "Create a parser for spintext syntax (e.g., {option1|option2|option3}). Develop a resolution engine that randomly selects variations at send time. Implement nested spintext support. Create a testing interface for previewing spintext variations. Develop caching mechanisms for frequently used templates. Implement distribution controls for weighted random selection.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 6,
+            "title": "Personalization Variable Replacement System",
+            "description": "Develop a system to replace personalization variables with recipient-specific data when sending messages",
+            "dependencies": [],
+            "details": "Create a variable syntax parser (e.g., {{first_name}}, {{custom_field}}). Implement data lookup from recipient profiles and custom fields. Develop fallback values for missing data. Create a validation system to identify missing required variables. Implement formatting helpers for dates, numbers, and text. Design a preview system for testing personalization before sending.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 7,
+            "title": "Comprehensive Event Logging System",
+            "description": "Implement a detailed logging system for all message events throughout the sending and delivery process",
+            "dependencies": [
+              "10.1",
+              "10.2",
+              "10.3",
+              "10.4"
+            ],
+            "details": "Create structured logging for all message lifecycle events (queued, sent, delivered, failed). Implement searchable and filterable log storage. Develop real-time log streaming for monitoring. Create log retention policies and archiving. Implement log export functionality for compliance and analysis. Design dashboard widgets for visualizing message event statistics.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 11,
+        "title": "Analytics and Reporting System",
+        "description": "Develop comprehensive analytics and reporting for campaigns, devices, and messages.",
+        "details": "Create real-time dashboards showing key metrics: sent, delivered, failed, and responded messages. Implement per-device statistics tracking. Develop campaign performance reports. Create exportable logs and statistics in CSV/Excel format. Implement charts and visualizations for key metrics. Design filtering and date range selection for reports. Create device health monitoring dashboards.",
+        "testStrategy": "Test analytics calculations with sample data. Verify real-time updates of statistics. Test export functionality for various formats. Verify filtering and date range selection. Test performance with large datasets. Verify accuracy of all reported metrics against raw data.",
+        "priority": "medium",
+        "dependencies": [
+          9,
+          10
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Real-time Metrics Dashboard Implementation",
+            "description": "Develop a real-time dashboard that displays key messaging metrics including sent, delivered, failed, and responded messages.",
+            "dependencies": [],
+            "details": "Create a responsive dashboard UI that updates in real-time. Implement WebSocket or similar technology for live updates. Design widgets for each key metric with appropriate visualizations. Include summary statistics and trend indicators. Ensure the dashboard maintains performance even with high message volumes.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Per-device Statistics Tracking System",
+            "description": "Implement a system to track and display statistics for each connected device.",
+            "dependencies": [
+              "11.1"
+            ],
+            "details": "Create a data collection service that aggregates metrics from each device. Track device-specific metrics like message throughput, success rates, and error frequencies. Implement device health indicators (battery, signal strength, etc.). Design a UI to display individual device performance and allow comparison between devices.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Campaign Performance Reporting",
+            "description": "Develop comprehensive reporting tools for analyzing campaign performance.",
+            "dependencies": [
+              "11.1",
+              "11.2"
+            ],
+            "details": "Create campaign-level analytics showing overall performance metrics. Implement conversion tracking and response rate analysis. Design reports showing message delivery times and patterns. Create comparison tools for evaluating performance across different campaigns. Include success/failure analysis with error categorization.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Data Export Functionality",
+            "description": "Implement functionality to export logs and statistics in CSV and Excel formats.",
+            "dependencies": [
+              "11.1",
+              "11.2",
+              "11.3"
+            ],
+            "details": "Create export services for all major data types (campaign results, device statistics, message logs). Implement proper formatting for CSV and Excel outputs with headers and data typing. Design a UI for selecting export parameters and data ranges. Include options for scheduled/automated exports. Ensure exports maintain data integrity and include all relevant metrics.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Chart and Visualization Components",
+            "description": "Develop reusable chart and visualization components for displaying analytics data.",
+            "dependencies": [
+              "11.1"
+            ],
+            "details": "Implement a library of visualization components (line charts, bar charts, pie charts, heat maps). Create interactive elements for data exploration (tooltips, zooming, highlighting). Design consistent styling and theming across all visualizations. Ensure visualizations are responsive and work across device sizes. Optimize rendering performance for large datasets.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 6,
+            "title": "Filtering and Date Range Selection System",
+            "description": "Implement a comprehensive filtering and date range selection system for all reports and analytics views.",
+            "dependencies": [
+              "11.1",
+              "11.5"
+            ],
+            "details": "Create a unified filtering interface that works across all analytics components. Implement date range selection with presets (today, last week, last month, custom). Design advanced filtering options for campaigns, devices, message types, and status codes. Ensure filters update visualizations in real-time. Implement filter persistence and sharing capabilities.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 12,
+        "title": "Compliance and Opt-Out Management",
+        "description": "Implement compliance features including opt-out handling and DNC list management.",
+        "details": "Create automatic opt-out detection for incoming messages (e.g., 'STOP', 'UNSUBSCRIBE'). Implement DNC (Do Not Contact) list management. Develop rate limiting to comply with carrier regulations. Create compliance reporting for audit purposes. Implement automatic handling of opt-out responses. Design UI for managing compliance settings and viewing compliance reports.",
+        "testStrategy": "Test opt-out detection with various message formats. Verify automatic addition to DNC list upon opt-out. Test rate limiting enforcement. Verify compliance reports accuracy. Test opt-out response handling. Verify DNC list prevents sending to opted-out numbers.",
+        "priority": "high",
+        "dependencies": [
+          5,
+          10
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement Opt-Out Detection System",
+            "description": "Create a system that automatically detects opt-out requests in incoming messages using natural language processing.",
+            "dependencies": [],
+            "details": "Develop pattern matching algorithms to detect common opt-out phrases like 'STOP', 'UNSUBSCRIBE', 'CANCEL', etc. Implement NLP capabilities to understand contextual opt-out requests. Support multiple languages for international compliance. Create a configurable system allowing admins to add custom opt-out phrases. Include fuzzy matching to catch typos and variations. Build unit tests with comprehensive test cases covering various opt-out scenarios.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Build DNC List Management System",
+            "description": "Implement a robust Do Not Contact list management system that prevents sending messages to opted-out numbers.",
+            "dependencies": [
+              "12.1"
+            ],
+            "details": "Create database schema for storing DNC records with timestamps and opt-out reasons. Implement API endpoints for adding, removing, and querying DNC status. Develop bulk import/export functionality for DNC lists. Create automatic DNC addition when opt-out is detected. Implement pre-send verification to block messages to DNC numbers. Add audit logging for all DNC list modifications for compliance purposes.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Develop Rate Limiting for Carrier Compliance",
+            "description": "Implement rate limiting functionality to ensure compliance with carrier regulations regarding message volume and frequency.",
+            "dependencies": [],
+            "details": "Research and document carrier-specific rate limits across different regions. Implement configurable rate limiting by carrier, country, and time period. Create a throttling system for message queues to prevent exceeding limits. Develop monitoring and alerting for approaching rate limits. Build override capabilities for emergency messages. Implement adaptive rate limiting based on carrier feedback (e.g., throttling more aggressively after rejections).",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Create Compliance Reporting System",
+            "description": "Develop comprehensive compliance reporting and audit trail functionality for regulatory purposes.",
+            "dependencies": [
+              "12.1",
+              "12.2",
+              "12.3"
+            ],
+            "details": "Create detailed logging of all compliance-related events (opt-outs, DNC additions, rate limit enforcements). Implement exportable compliance reports for audit purposes. Design dashboards showing compliance metrics and potential issues. Create scheduled report generation and distribution. Implement data retention policies for compliance data. Build search functionality for finding specific compliance events by phone number, date, or event type.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Implement Opt-Out Response Automation and UI",
+            "description": "Develop automatic handling of opt-out responses and create a user interface for managing compliance settings.",
+            "dependencies": [
+              "12.1",
+              "12.2",
+              "12.4"
+            ],
+            "details": "Create configurable automatic responses to opt-out requests confirming the opt-out. Implement UI for viewing and managing the DNC list. Design interface for configuring opt-out detection settings and phrases. Create UI for viewing compliance reports and audit trails. Develop admin controls for compliance settings including rate limits. Implement user role permissions for compliance management features.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 13,
+        "title": "API Development for External Integration",
+        "description": "Create APIs for integration with external systems like CRMs and analytics platforms.",
+        "details": "Design and implement RESTful APIs for external access to platform functionality. Create webhook system for real-time event notifications. Implement authentication and rate limiting for API access. Develop SDK or code examples for common integration scenarios. Create comprehensive API documentation. Implement endpoints for: campaign management, recipient list management, message template management, and analytics data.",
+        "testStrategy": "Test all API endpoints with various input scenarios. Verify authentication and rate limiting. Test webhook delivery and retry logic. Verify API documentation accuracy. Test integration with sample external systems. Perform security testing on API endpoints.",
+        "priority": "low",
+        "dependencies": [
+          1,
+          5,
+          6,
+          7,
+          10,
+          11
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "RESTful API Design and Implementation",
+            "description": "Design and implement the core RESTful API architecture for external system integration",
+            "dependencies": [],
+            "details": "Create API specification document defining endpoints, request/response formats, and error handling. Implement RESTful API following best practices for resource naming, HTTP methods, and status codes. Design data models for API responses. Ensure API is versioned appropriately for future compatibility. Implement proper error handling and logging for API requests.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Webhook System for Event Notifications",
+            "description": "Develop a webhook system to provide real-time event notifications to external systems",
+            "dependencies": [
+              "13.1"
+            ],
+            "details": "Design webhook subscription model allowing external systems to register for specific events. Implement webhook delivery system with retry logic for failed deliveries. Create event types for key system actions (message sent, campaign started, etc.). Develop webhook configuration UI for users to manage subscriptions. Implement webhook security with signature verification.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Authentication and Rate Limiting",
+            "description": "Implement secure authentication and rate limiting for API access",
+            "dependencies": [
+              "13.1"
+            ],
+            "details": "Design and implement API key management system. Create OAuth 2.0 authentication flow for secure API access. Implement rate limiting based on client ID and endpoint. Develop monitoring for API usage and abuse detection. Create admin interface for managing API access permissions and viewing usage metrics.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "SDK Development for Common Integrations",
+            "description": "Create SDKs or code examples for common integration scenarios",
+            "dependencies": [
+              "13.1",
+              "13.3"
+            ],
+            "details": "Develop client libraries in popular languages (JavaScript, Python, PHP). Create code examples for common integration scenarios (CRM integration, analytics platform integration). Implement helper methods for common API operations. Build sample applications demonstrating API usage. Create getting started guides for each SDK.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "API Documentation Generation",
+            "description": "Create comprehensive API documentation for developers",
+            "dependencies": [
+              "13.1",
+              "13.2",
+              "13.3",
+              "13.4"
+            ],
+            "details": "Generate interactive API documentation using OpenAPI/Swagger. Create developer guides with authentication examples. Document webhook subscription and event types. Provide code samples for common operations in multiple languages. Create tutorials for common integration scenarios. Implement a developer portal for accessing documentation.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 6,
+            "title": "Core Platform Endpoint Implementation",
+            "description": "Implement specific API endpoints for core platform functionality",
+            "dependencies": [
+              "13.1",
+              "13.3"
+            ],
+            "details": "Develop endpoints for campaign management (create, update, delete, status). Implement recipient list management APIs (import, export, segment). Create message template management endpoints. Build analytics data retrieval APIs with filtering options. Implement device management endpoints. Ensure all endpoints follow consistent patterns and error handling.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 14,
+        "title": "Device Onboarding and Management UI",
+        "description": "Create user interface for device onboarding, monitoring, and management.",
+        "details": "Design and implement device onboarding flow with QR codes/URLs. Create device management dashboard showing status of all connected devices. Implement device grouping and tagging for organization. Develop detailed device view showing: battery level, signal strength, SIM status, message counts, error rates. Create troubleshooting guides and error resolution workflows. Implement device settings configuration UI.",
+        "testStrategy": "Test onboarding flow with various devices. Verify status monitoring accuracy. Test device grouping and tagging functionality. Verify troubleshooting workflows. Test device settings configuration. Verify performance with many connected devices.",
+        "priority": "medium",
+        "dependencies": [
+          3,
+          4
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Device Onboarding Flow Implementation",
+            "description": "Design and implement the device onboarding process with QR code and unique URL generation",
+            "dependencies": [],
+            "details": "Create a step-by-step onboarding wizard that guides users through connecting new devices. Implement QR code generation that contains device pairing information. Develop unique URL generation as an alternative to QR codes. Design a verification step to confirm successful device connection. Include helpful tooltips and instructions throughout the flow. Ensure the onboarding process works with both USB and WiFi connection methods from Tasks 3 and 4.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Device Dashboard and Status Monitoring",
+            "description": "Create a comprehensive dashboard showing the status of all connected devices",
+            "dependencies": [
+              "14.1"
+            ],
+            "details": "Design and implement a dashboard view that displays all connected devices with their current status. Include visual indicators for online/offline status, battery level, and signal strength. Implement real-time updates using WebSockets. Create filtering options to view devices by status, type, or group. Add search functionality to quickly find specific devices. Include summary statistics at the top of the dashboard (total devices, active devices, devices with warnings, etc.).",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Device Grouping and Tagging System",
+            "description": "Implement functionality for organizing devices into groups with custom tags",
+            "dependencies": [
+              "14.2"
+            ],
+            "details": "Create interfaces for creating, editing, and deleting device groups. Implement tagging system with custom user-defined tags. Design drag-and-drop functionality for assigning devices to groups. Develop batch operations for applying tags or group assignments to multiple devices. Create filtering and sorting options based on groups and tags. Ensure the grouping system integrates with the load balancing logic from Task 8.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Detailed Device View with Diagnostics",
+            "description": "Develop a detailed view for individual devices showing comprehensive metrics and diagnostic information",
+            "dependencies": [
+              "14.2"
+            ],
+            "details": "Design and implement a detailed device view showing: battery level, signal strength, SIM status, message counts, and error rates. Create historical graphs for key metrics to show trends over time. Implement diagnostic tools for troubleshooting device issues. Design and implement error resolution workflows with step-by-step guides. Add the ability to view and export device logs. Include a communication test feature to verify device connectivity.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Device Settings Configuration Interface",
+            "description": "Create a user interface for configuring device-specific settings and preferences",
+            "dependencies": [
+              "14.4"
+            ],
+            "details": "Design and implement interfaces for configuring device settings such as message sending rate, quiet hours, and notification preferences. Create controls for device power management settings. Implement backup and restore functionality for device configurations. Add the ability to clone settings from one device to others. Create validation to prevent invalid configurations. Develop a settings template system to quickly apply common configurations to multiple devices.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 15,
+        "title": "System Testing and Performance Optimization",
+        "description": "Conduct comprehensive system testing and optimize for performance at scale.",
+        "details": "Perform end-to-end testing of complete workflows. Conduct load testing with simulated high volume (10k+ recipients, 50+ devices). Identify and resolve performance bottlenecks. Implement caching strategies for frequently accessed data. Optimize database queries and indexes. Conduct security audit and penetration testing. Create monitoring and alerting for production deployment. Develop system health dashboard for administrators.",
+        "testStrategy": "Execute comprehensive test plan covering all major features. Measure performance metrics under various load conditions. Verify system stability during extended operation. Test recovery from simulated failures. Conduct user acceptance testing with sample campaigns. Verify security through external penetration testing.",
+        "priority": "medium",
+        "dependencies": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "End-to-End Test Suite Development",
+            "description": "Create comprehensive test suites for all major workflows in the system",
+            "dependencies": [],
+            "details": "Develop automated test scripts covering user registration, authentication, device connection, recipient management, campaign creation, message sending, and reporting. Include positive and negative test cases. Implement test data generation utilities. Create test environment configuration that can be easily reproduced. Document test coverage and execution procedures.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Load Testing Implementation",
+            "description": "Develop and execute load tests simulating high-volume usage scenarios",
+            "dependencies": [
+              "15.1"
+            ],
+            "details": "Create test harnesses to simulate 10k+ recipients and 50+ connected devices simultaneously. Implement gradual scaling tests to identify breaking points. Measure response times, throughput, and resource utilization under various loads. Test database performance with large datasets. Simulate concurrent user access to the dashboard during high message volume periods.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Performance Bottleneck Identification and Resolution",
+            "description": "Identify and resolve performance bottlenecks across the system",
+            "dependencies": [
+              "15.2"
+            ],
+            "details": "Analyze performance metrics from load testing to identify bottlenecks. Profile code execution in critical paths. Optimize message queue processing. Improve concurrent processing capabilities. Implement asynchronous processing where appropriate. Optimize memory usage patterns. Document performance improvements and their impact.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Caching Strategy Implementation",
+            "description": "Design and implement caching for frequently accessed data",
+            "dependencies": [
+              "15.3"
+            ],
+            "details": "Identify frequently accessed data suitable for caching (recipient lists, templates, device status). Implement Redis or similar in-memory cache. Develop cache invalidation strategies. Create cache warming procedures for system startup. Implement tiered caching where appropriate. Measure and document performance improvements from caching.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Database Query Optimization",
+            "description": "Optimize database schema, queries, and indexes for performance",
+            "dependencies": [
+              "15.3"
+            ],
+            "details": "Review and optimize database schema for efficiency. Create appropriate indexes based on query patterns. Optimize complex queries using query analysis tools. Implement database partitioning for large tables if needed. Consider read replicas for reporting queries. Document query performance before and after optimization.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 6,
+            "title": "Security Audit and Penetration Testing",
+            "description": "Conduct comprehensive security testing and address vulnerabilities",
+            "dependencies": [
+              "15.1"
+            ],
+            "details": "Perform security audit of authentication system. Test for common vulnerabilities (SQL injection, XSS, CSRF). Conduct penetration testing of API endpoints. Review data encryption practices. Verify secure handling of sensitive information. Test permission boundaries between user accounts. Document findings and remediation steps.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 7,
+            "title": "Monitoring and Alerting System Setup",
+            "description": "Implement comprehensive monitoring, alerting, and system health dashboard",
+            "dependencies": [
+              "15.3",
+              "15.4",
+              "15.5"
+            ],
+            "details": "Set up application performance monitoring (APM) tools. Create system health dashboard for administrators. Implement alerting for critical system events and performance thresholds. Set up log aggregation and analysis. Monitor database performance metrics. Create automated recovery procedures where possible. Document monitoring setup and alert response procedures.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      }
+    ],
+    "metadata": {
+      "created": "2025-08-26T15:22:19.331Z",
+      "updated": "2025-08-26T15:28:15.877Z",
+      "description": "Tasks for master context"
+    }
+  }
+}

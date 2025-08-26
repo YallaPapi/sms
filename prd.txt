@@ -1,0 +1,106 @@
+Product Requirements Document: Multi-Device SMS Drip Campaign Platform
+Overview
+
+Build an online dashboard allowing users to connect multiple cell phones (with SIM cards), and automate the sending (“dripping”) of SMS messages to a list of recipients imported from a spreadsheet. Messages can be scheduled, spun (spintext), and sent at chosen intervals. The entire system is managed remotely from the dashboard.
+Core User Stories
+
+    As a user, I can connect multiple cell phones (with SIMs) to the dashboard via USB, WiFi, or a mobile app, and monitor their SMS status.
+
+    As a user, I can upload a spreadsheet (CSV/XLS) containing a list of recipients and their phone numbers into the dashboard.
+
+    As a user, I can write, spin, and preview outgoing SMS messages, including schedule/flow logic (drip cadences, personalized fields, etc.).
+
+    As a user, I can assign message flows and distribution logic across the connected phones (load balancing, sender rotation, or other business rules).
+
+    As a user, I can manage and view analytics/stats for each phone, message, and recipient, including delivery, response, error rates.
+
+    As a user, I can pause, stop, or reschedule campaigns—even if phones are remote/offline, pending reconnection.
+
+Functional Requirements
+1. Device Connection/Management
+
+    Support for connecting phones via:
+
+        USB (direct physical connection)
+
+        WiFi/local app (phones on the same LAN or externally via cloud/mobile app bridge)
+
+    Dashboard auto-detects connected and online devices, shows device status (battery, SIM, signal, etc.)
+
+    Quick “device onboarding” flow with QR/URL or auto-provisioning for ease of scaling
+
+2. List Import and Management
+
+    Upload CSV/XLS/XLSX with required fields: phone number (plus optional name, tags)
+
+    Bulk validation to check for formatting issues, duplicates, DNC (do not contact) lists
+
+    Manual list entry and single-entry UI for smaller campaigns or corrections
+
+3. Message Templates & Spintext
+
+    Compose outgoing message with:
+
+        Spintext/randomization support for A/B variation and deliverability
+
+        Personalization variables (e.g., [FIRST_NAME])
+
+    Message preview for individual and spintext variants
+
+4. Drip Scheduling and Flow
+
+    Specify global or per-recipient timing (e.g., “every X minutes” or group batch at set times)
+
+    Optional controls for time-of-day, time zone, throttling limits, pausing/retrying failed numbers
+
+    Assign drip schedules (evenly or custom rules) to available connected phones
+
+5. Central Campaign Orchestration
+
+    Visual dashboard tracks:
+
+        Status of each campaign (queued, sending, paused, completed)
+
+        Per-device usage/statistics; alerts on errors, carrier blocks, device offline, etc.
+
+    Start, pause, stop, or reschedule campaigns; reassign leads/messages between phones if needed
+
+6. Delivery Analytics
+
+    Real-time dashboard showing:
+
+        Sent, delivered, failed, and responded messages per device and campaign
+
+        Export stats and logs, with delivery receipts if available
+
+        Device health and troubleshooting status
+
+7. Security & Compliance
+
+    Authentication for dashboard access
+
+    Activity logging (who sent/edited/deleted what, and when)
+
+    Tools to handle opt-outs and legal compliance (DNC management, message rate limits)
+
+Technical Agnosticism / Integration
+
+    Device connection must allow for pluggable backend (USB, WiFi, cloud API, or Android/iOS app that bridges SMS to the dashboard)
+
+    Message sending is handled through the physical SIMs of connected phones, ensuring real local origination
+
+    APIs available for extension (connect to CRMs, analytics, external data feeds, webhook out for message status)
+
+    Future-proof: compatible with third-party SMS gateway APIs if hardware is eventually replaced
+
+Non-Functional Requirements
+
+    Responsive dashboard for desktop/mobile
+
+    Capable of handling bulk campaigns (10k+ recipients)
+
+    Scalable device management (10–50+ active phones at once)
+
+    Clear error handling and device troubleshooting guidance
+
+This approach ensures a robust, compliant, scalable SMS drip-marketing platform that leverages physical SIM devices (for best deliverability) but also remains flexible—supporting BYOD (bring your own device), cloud-connected apps, and future integrations.
