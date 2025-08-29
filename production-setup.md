@@ -68,6 +68,9 @@ cp ../.env.example .env
 # - Configure database connection
 # - Set production CORS origins
 # - Configure logging paths
+# - (Optional) Set admin bootstrap for first run
+#   ADMIN_INIT_USERNAME=admin
+#   ADMIN_INIT_PASSWORD=<one-time-strong-password>
 ```
 
 #### Build and Start
@@ -79,6 +82,11 @@ npm run dev
 npm run build
 npm run start:prod
 ```
+
+#### Admin Bootstrap (First Run)
+- If the `users` table is empty and `ADMIN_INIT_PASSWORD` is set, logging in via `POST /api/auth/login` with `username=ADMIN_INIT_USERNAME` and `password=ADMIN_INIT_PASSWORD` creates the initial admin user and returns a JWT.
+- After confirming the admin is created, remove `ADMIN_INIT_PASSWORD` from `.env` and create additional users via an admin UI/API (planned) or direct DB insert with bcrypt hash.
+- Always set a strong, unique `JWT_SECRET` in `.env`.
 
 #### Process Manager (PM2)
 ```bash
@@ -174,6 +182,14 @@ sudo nano /etc/postgresql/*/main/postgresql.conf
 sudo nano /etc/postgresql/*/main/pg_hba.conf
 # Use md5 authentication for security
 ```
+
+#### Additional Hardening
+- CORS: Restrict origins via `.env` (comma-separated if multiple), e.g., `CORS_ORIGIN=https://your-dashboard.example.com`
+- JWT Secret: Always set a strong `JWT_SECRET`.
+- Rate Limiting: Login attempts are rate limited by default.
+- Network: Run behind Nginx with TLS; restrict DB to localhost or private network only.
+- Device Registration: For production, gate device registration behind an admin-controlled flow (e.g., issue pairing tokens). The `/api/auth/device/register` endpoint is open by default for development—harden this for production.
+- Frontend Config: Set `REACT_APP_API_BASE_URL` and (optionally) `REACT_APP_SOCKET_URL` to your backend origin.
 
 ### 6. Monitoring & Logging
 

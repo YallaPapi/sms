@@ -9,11 +9,19 @@ dev-debug.log
 # Dependency directories
 node_modules/
 
-# Environment variables
-.env
+# Build artifacts
+backend/dist/
+frontend/build/
 
-# MCP Configuration (contains API keys)
+# Environment files (never commit secrets)
+.env
+.env.*
+**/.env
+!*.env.example
+
+# MCP/AI config containing keys
 .mcp.json
+.taskmaster/config.json
 
 # Editor directories and files
 .idea
@@ -27,7 +35,14 @@ node_modules/
 # OS specific
 .DS_Store
 
-# Task files
-# tasks.json
-# tasks/ 
-.mcp.json
+# Secret key material (catch-all)
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+
+# Task files (optional)
+# .taskmaster/tasks/tasks.json
+# .taskmaster/tasks/

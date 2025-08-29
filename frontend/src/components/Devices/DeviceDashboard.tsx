@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { io, Socket } from 'socket.io-client';
 import './DeviceDashboard.css';
 
 interface Device {
@@ -23,23 +24,34 @@ const DeviceDashboard: React.FC = () => {
 
   useEffect(() => {
     fetchDevices();
-    
-    // Set up WebSocket for real-time updates
-    const ws = new WebSocket('ws://localhost:4000');
-    
-    ws.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      
-      if (data.type === 'deviceStatusUpdate') {
-        updateDeviceStatus(data.device);
-      } else if (data.type === 'deviceAdded') {
-        fetchDevices(); // Refresh device list
-      } else if (data.type === 'deviceRemoved') {
-        setDevices(prev => prev.filter(d => d.id !== data.deviceId));
-      }
-    };
 
-    return () => ws.close();
+    const socketUrl = (process.env.REACT_APP_SOCKET_URL || process.env.REACT_APP_API_BASE_URL || 'http://localhost:4000');
+    const socket: Socket = io(socketUrl, { transports: ['websocket'] });
+
+    socket.on('deviceList', (payload: { devices: Device[] }) => {
+      if (payload?.devices) {
+        setDevices(payload.devices as any);
+      }
+    });
+
+    socket.on('deviceStatusUpdate', (updated: Partial<Device> & { id: string }) => {
+      updateDeviceStatus(updated);
+    });
+
+    socket.on('deviceAdded', (device: Device) => {
+      setDevices(prev => {
+        const exists = prev.find(d => d.id === device.id);
+        return exists ? prev : [...prev, device];
+      });
+    });
+
+    socket.on('deviceRemoved', ({ deviceId }: { deviceId: string }) => {
+      setDevices(prev => prev.filter(d => d.id !== deviceId));
+    });
+
+    return () => {
+      socket.close();
+    };
   }, []);
 
   const fetchDevices = async () => {
@@ -97,9 +109,9 @@ const DeviceDashboard: React.FC = () => {
   const getStatusIcon = (status: string) => {
     switch (status) {
       case 'online': return '🟢';
-      case 'offline': return '🔴';
+      case 'offline': return '⚪';
       case 'busy': return '🟡';
-      case 'error': return '❌';
+      case 'error': return '🔴';
       default: return '⚪';
     }
   };
@@ -108,8 +120,8 @@ const DeviceDashboard: React.FC = () => {
     switch (connection) {
       case 'usb': return '🔌';
       case 'wifi': return '📶';
-      case 'bluetooth': return '📡';
-      default: return '❓';
+      case 'bluetooth': return '🅱️';
+      default: return '🔗';
     }
   };
 
@@ -187,16 +199,16 @@ const DeviceDashboard: React.FC = () => {
                 
                 {device.signal !== undefined && (
                   <div className="signal-info">
-                    📶 {device.signal}%
+                    📡 {device.signal}%
                   </div>
                 )}
                 
                 <div className="sim-status">
-                  📱 SIM: {device.simStatus || 'unknown'}
+                  💳 SIM: {device.simStatus || 'unknown'}
                 </div>
                 
                 <div className="queue-info">
-                  📬 Queue: {device.messageQueue} messages
+                  📨 Queue: {device.messageQueue} messages
                 </div>
                 
                 <div className="last-seen">
@@ -234,7 +246,7 @@ const DeviceDashboard: React.FC = () => {
                 className="modal-close"
                 onClick={() => setSelectedDevice(null)}
               >
-                ×
+                x
               </button>
             </div>
             
@@ -284,3 +296,4 @@ const DeviceDashboard: React.FC = () => {
 };
 
 export default DeviceDashboard;
+

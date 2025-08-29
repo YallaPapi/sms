@@ -1,0 +1,144 @@
+SMS Drip Campaign Platform — Production Readiness PRD
+
+Version: 1.0 (Active)
+Owner: Stuart (+ collaborators via Claude Code / Task Master)
+Scope: Convert current codebase into a reliable, testable, production‑ready multi‑device SMS platform. Remove all demo/placeholder code and fake integrations. We will work from this PRD and the companion REMEDIATION_PLAN.md.
+
+1) Summary & Goals
+- Deliver a working backend (Node.js/TypeScript/Express) with PostgreSQL that can send SMS messages via physical Android devices connected over USB (ADB).
+- Provide device management, campaign orchestration (immediate/scheduled/drip), message personalization, and live monitoring via WebSocket.
+- Ship a dashboard frontend capable of listing devices, sending test SMS, creating campaigns, and showing live stats.
+- Remove demo servers, placeholder routes, fake external gateways, and duplicate DB stacks.
+- Security: JWT for users/devices, basic rate‑limits, CORS, and hardened configuration.
+
+Non‑Goals (MVP)
+- No third‑party SMS gateway by default (optional fallback only behind a feature flag).
+- No server‑side WebUSB (browser‑only or serial‑based approach deferred).
+- No iOS sending path in MVP (Android‑first).
+
+2) Users & Roles
+- Admin: Full management (devices, users, campaigns, API keys). Temporary hardcoded admin to be replaced with a users table and hashed passwords.
+- User (operator): Create and run campaigns, view analytics, limited management.
+- Device: Authenticated actor via device token (long‑lived), used by ADB discovery/registry.
+
+3) Functional Requirements
+3.1 Authentication & Authorization
+- JWT for users: login, verify, role checks; token expiry (default 24h). Replace hardcoded admin with users table + bcrypt.
+- Device tokens: register device, refresh token, revoke, list active device tokens.
+- Admin‑only endpoints protected by role; rate‑limit login attempts.
+
+3.2 Device Management (Android via ADB)
+- Discovery: poll `adb devices -l`; auto‑register/update device records in DB; mark offline when disconnected.
+- Status: battery, signal, SIM status (best‑effort via ADB shell commands), lastSeen, messageQueue.
+- SMS sending: primary method uses `service call isms` (silent where supported); fallback opens compose UI intent (requires manual tap) when necessary.
+- Monitoring: periodic status updates; events broadcast over WebSocket; manual discovery endpoint.
+- Persistence: insert/update devices and device logs in DB.
+
+3.3 SMS Sending & Queueing
+- Immediate or scheduled send for a single message; drip campaign distribution across devices.
+- Personalization: replace placeholders like {NAME}, {PHONE}, and arbitrary {customField} from recipient records.
+- Rate limiting per device; small batch pacing; retries (limited) on failure; message status tracking (pending/sent/failed/delivered[best‑effort]).
+- Persistence: write to `messages` table with timestamps, delivery info when available.
+
+3.4 Campaign Management
+- Create campaign: name, message, recipients (phone, name, custom fields), schedule type (immediate/scheduled/drip), optional drip interval and priority.
+- Start, pause, resume campaigns; schedule future start; resume on server restart.
+- Stats: maintain `campaign_stats` (total/sent/failed/pending) and update as messages progress.
+- Retrieval: list campaigns, get details, get stats.
+
+3.5 WebSocket (Socket.IO)
+- Events emitted by server: 
+  - `deviceList` (initial / refresh),
+  - `deviceStatusUpdate`,
+  - `sms-status-update` (messageId, status, error?),
+  - `campaignUpdate`,
+  - `analyticsUpdate`,
+  - `notification`.
+- Heartbeats supported; log disconnects/errors.
+
+3.6 REST API (representative)
+- Health: `GET /api/health` → service status + counts.
+- Devices:
+  - `GET /api/devices` → summary list.
+  - `GET /api/devices/:deviceId` → detailed status.
+  - `POST /api/devices/:deviceId/test-sms` { to, message } → send test via device.
+  - `POST /api/devices/discover` → trigger manual discovery.
+- Campaigns:
+  - `GET /api/campaigns` → list.
+  - `POST /api/campaigns` { name, message, recipients[], schedule } → create.
+  - `GET /api/campaigns/:campaignId` → details.
+  - `POST /api/campaigns/:campaignId/start|pause|resume` → control.
+- Analytics:
+  - `GET /api/analytics/overview` → device/campaign/message aggregates.
+- Auth:
+  - `POST /api/auth/login` (temporary admin until users table lands).
+  - `POST /api/auth/device/register` → issue device token.
+  - `POST /api/auth/device/refresh` → refresh token.
+  - `POST /api/auth/device/revoke` → revoke token.
+  - `GET  /api/auth/devices/active` → list active device tokens (admin).
+  - `POST /api/auth/apikey/generate` (admin; store hashed later).
+  - `POST /api/auth/verify` (user/device token verification).
+
+3.7 Frontend Requirements
+- Use `socket.io-client` (not raw WebSocket) to receive device and campaign updates.
+- Pages/components: Devices (list/detail/test SMS), Campaign Builder (CSV import, personalization preview, schedule), Analytics Overview.
+- Replace placeholder icons/text with stable UI. Configure API base URL via `REACT_APP_API_BASE_URL` (fallback to `http://localhost:4000`).
+
+3.8 Configuration & Feature Flags
+- Environment variables: DB (host, port, name, user, password), JWT_SECRET, CORS origins, API port, rate‑limits, logging flags.
+- Feature flag: `ENABLE_PROVIDER_FALLBACK=false` (if enabled later, provider must be properly configured via env).
+
+3.9 Data Model (PostgreSQL)
+- Use `backend/src/database/schema.sql` as primary schema. Core tables: `devices`, `campaigns`, `campaign_stats`, `contacts`, `campaign_recipients`, `messages`, `device_logs`. Indexes provided. Triggers maintain updated_at.
+- Migrations executed by `runMigration` on startup if tables absent.
+
+4) Non‑Functional Requirements
+- Security: strong JWT secret, CORS allowlist, authn/authorization on protected endpoints, login rate limiting.
+- Observability: structured logs on API, device discovery, SMS attempts (success/failure), campaign progress.
+- Performance: handle 100+ concurrent connections; batch SMS sending with small paced delays to respect device/network constraints.
+- Reliability: graceful shutdown; resume scheduled/drip campaigns on restart; safe DB operations with transactions where needed.
+
+5) Out of Scope / Removed
+- Demo servers/routes: `minimal-server.ts`, `simple-server.js`, placeholder routers under `routes/*` that return static text.
+- Fake SMS gateway: posting to `sms-gateway.example.com`.
+- Conflicting DB stacks: TypeORM/Sequelize leftovers.
+- Server‑side WebUSB: Node cannot access `navigator.usb`.
+
+6) Acceptance Criteria (MVP)
+Backend/API
+- `GET /api/health` returns status: ok and non‑zero counts when a device is connected.
+- A connected Android device shows under `GET /api/devices` with realistic status fields.
+- `POST /api/devices/:deviceId/test-sms` returns `status: sent` and the device actually sends an SMS (silent where supported, otherwise compose UI fallback).
+- Outgoing message appears in `messages` table with status and timestamps.
+- Create a campaign with ≥3 recipients → starting the campaign sends SMS across available devices; `campaign_stats` updates accordingly; failures recorded.
+
+Frontend
+- Devices page lists devices and updates in real‑time via Socket.IO; test SMS flow works and reports status.
+- Campaign builder imports CSV, previews personalization, and creates campaigns; basic status visible.
+- Analytics overview returns and displays aggregates (even if minimal initially).
+
+Security/Config
+- JWT signed with non‑default secret; CORS matches configured origins; login rate‑limit active. Admin routes inaccessible without admin token.
+
+7) Delivery Plan (Phases)
+- Phase 0 (done): ADB SMS real send via `service call isms` with UI fallback.
+- Phase 1: Backend cleanup
+  - Remove demo servers (`minimal-server.ts`, `simple-server.js`) and placeholder routes/APIs.
+  - Delete TypeORM/Sequelize leftovers; unify DB on `database.ts` + migrations.
+- Phase 2: Frontend wiring
+  - Introduce `socket.io-client` and wire events; replace placeholder icons/text; align API base URL.
+- Phase 3: Functional smoke tests
+  - Manual E2E with ADB device; add Jest API smokes and a basic CI task.
+- Phase 4: Security & auth
+  - Users table + bcrypt; remove hardcoded admin; ensure admin routes role‑gated; rotate secrets as required.
+
+8) Risks & Mitigations
+- ADB `service call isms` compatibility varies by Android version/vendor → Provide multiple call signatures; fallback to compose UI; document required permissions.
+- Device permissions (SEND_SMS/READ_PHONE_STATE) and USB debugging authorization → Provide setup instructions and checks; informative errors.
+- Database availability → Fail‑safe around inserts (non‑blocking), but require DB for campaign operations.
+
+9) Tracking & Working Agreement
+- We will work from this PRD and the repository’s REMEDIATION_PLAN.md.
+- Commit messages should reference the relevant PRD section or remediation phase.
+- Suggested initial commit: `chore: add production PRD; begin Phase 1 backend cleanup`.
+
